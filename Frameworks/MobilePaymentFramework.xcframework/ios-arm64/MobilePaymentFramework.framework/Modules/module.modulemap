@@ -1,0 +1,11 @@
+framework module MobilePaymentFramework {
+  umbrella header "MobilePaymentFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module MobilePaymentFramework.Swift {
+    header "MobilePaymentFramework-Swift.h"
+    requires objc
+}

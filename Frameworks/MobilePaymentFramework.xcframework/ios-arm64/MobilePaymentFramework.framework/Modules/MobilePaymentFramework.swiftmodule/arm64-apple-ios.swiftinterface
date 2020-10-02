@@ -1,0 +1,512 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name MobilePaymentFramework
+import CommonCrypto
+import CoreBluetooth
+import CryptoKit
+import CryptoTokenKit
+import Foundation
+@_exported import MobilePaymentFramework
+import RUA_BLE
+import Swift
+import UIKit
+import os
+public struct AuthorizeResponse {
+}
+public struct BLEDevice : Swift.Hashable {
+  public let name: Swift.String
+  public let deviceIdentifier: Swift.String
+  public let rssi: Swift.Int
+  public init(name: Swift.String, deviceIdentifier: Swift.String, rssi: Swift.Int)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: MobilePaymentFramework.BLEDevice, b: MobilePaymentFramework.BLEDevice) -> Swift.Bool
+}
+@objc public class MPBLEController : ObjectiveC.NSObject {
+  public init(readerType: MobilePaymentFramework.ReaderType)
+  public func startDiscovery(discoveredHandler: @escaping (MobilePaymentFramework.BLEDevice) -> Swift.Void, completionHandler: @escaping () -> Swift.Void)
+  public func stopDiscovery()
+  public func connect(completionHandler: @escaping (MobilePaymentFramework.MPBLEDeviceStatus) -> Swift.Void)
+  public func connect(device: MobilePaymentFramework.BLEDevice, completionHandler: @escaping (MobilePaymentFramework.MPBLEDeviceStatus) -> Swift.Void)
+  public func isConnected() -> Swift.Bool
+  public func disconnect()
+  public func getPairedDevices() -> [MobilePaymentFramework.BLEDevice]
+  public func isPaired(device: MobilePaymentFramework.BLEDevice) -> Swift.Bool
+  public func unpair(device: MobilePaymentFramework.BLEDevice) -> Swift.Bool
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension MPBLEController {
+  public func sendCommand(apdu: Foundation.Data, progressHandler: @escaping (Swift.UInt64, Foundation.Data) -> Swift.Void, completionHandler: @escaping (Foundation.Data, Swift.UInt8, Swift.UInt8, Swift.Error?) -> Swift.Void)
+}
+public enum MPProgress : Swift.UInt64 {
+  case TapCard
+  case InsertCard
+  case SwipeCard
+  case TapInsertCard
+  case TapSwipeCard
+  case InsertSwipeCard
+  case TapInsertSwipeCard
+  case ManualCardEntry
+  case TapAgain
+  case InsertAgain
+  case SwipeAgain
+  case TapOtherCard
+  case TapInsertOtherCard
+  case TapInsertSwipeOtherCard
+  case InsertSwipeOtherCard
+  case TapCardCollision
+  case CardReadError
+  case FallbackSwipe
+  case FallbackInsert
+  case FirstPinEntryPrompt
+  case LastPinEntryPrompt
+  case PinEntryFailed
+  case PinEntrySuccessful
+  case RemoveCard
+  case Approved
+  case Declined
+  case Cancelled
+  case WelcomeScreen
+  case PleaseSeePhone
+  case Authorizing
+  case Initializing
+  case Initialized
+  case InitializationError
+  case ConfigureUI
+  case ConfigureDOL
+  case CallIssuer
+  case CardBlocked
+  case ConfirmAmount
+  case StartPayment
+  case PaymentError
+  case TransactionError
+  case ConnectDevice
+  case ClearAids
+  case SubmitAids
+  case DeviceReady
+  case StartInquiry
+  case FirmwareUpdating
+  public typealias RawValue = Swift.UInt64
+  public var rawValue: Swift.UInt64 {
+    get
+  }
+  public init?(rawValue: Swift.UInt64)
+}
+public struct ErrorMetadata {
+  public var actionCode: Swift.String?
+  public var clientType: Swift.String?
+  public var createTicket: Swift.String?
+  public var data: [[Swift.String : Swift.String]]?
+  public var functionIds: Swift.String?
+  public var label: Swift.String?
+  public init(actionCode: Swift.String? = nil, clientType: Swift.String? = nil, createTicket: Swift.String? = nil, data: [[Swift.String : Swift.String]]? = nil, functionIds: Swift.String? = nil, label: Swift.String? = nil)
+}
+@_inheritsConvenienceInitializers @objc public class MobilePaymentFramework : ObjectiveC.NSObject {
+  @objc public func doSomething() -> Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct ReaderFirmwareUpdateResponse {
+}
+public struct ReaderInitializeRequest {
+}
+extension ReaderInitializeRequest {
+  public class Builder {
+    public init()
+    public func set(clientId: Swift.String) -> MobilePaymentFramework.ReaderInitializeRequest.Builder
+    public func set(storeId: Swift.String) -> MobilePaymentFramework.ReaderInitializeRequest.Builder
+    public func set(clientTransactionId: Foundation.UUID) -> MobilePaymentFramework.ReaderInitializeRequest.Builder
+    public func set(currency: MobilePaymentFramework.Currency) -> MobilePaymentFramework.ReaderInitializeRequest.Builder
+    public func set(country: MobilePaymentFramework.Country) -> MobilePaymentFramework.ReaderInitializeRequest.Builder
+    public func set(readerType: MobilePaymentFramework.ReaderType) -> MobilePaymentFramework.ReaderInitializeRequest.Builder
+    public func build() throws -> MobilePaymentFramework.ReaderInitializeRequest
+    @objc deinit
+  }
+}
+@_hasMissingDesignatedInitializers public class PSController {
+  public static func cardInquiry(request: MobilePaymentFramework.PSCardInquiryRequest, completion: @escaping (MobilePaymentFramework.PSCardInquiryResponse?, Swift.Error?) -> Swift.Void)
+  @objc deinit
+}
+public struct AuthorizeRequest {
+}
+extension AuthorizeRequest {
+  public class Builder {
+    public init()
+    public func set(clientId: Swift.String) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(storeId: Swift.String) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(clientTransactionId: Foundation.UUID) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(orderId: Swift.String) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(currency: MobilePaymentFramework.Currency) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(country: MobilePaymentFramework.Country) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(transactionType: MobilePaymentFramework.TransactionType) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(amountRequest: Swift.UInt32) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(readerType: MobilePaymentFramework.ReaderType) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func set(installment: MobilePaymentFramework.InstallmentData) -> MobilePaymentFramework.AuthorizeRequest.Builder
+    public func build() throws -> MobilePaymentFramework.AuthorizeRequest
+    @objc deinit
+  }
+}
+public enum ReaderType : Swift.String, Swift.Codable {
+  case moby
+  case rp750
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ReaderFirmwareUpdateRequest : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension ReaderFirmwareUpdateRequest {
+  public class Builder {
+    public init()
+    public func set(orderChannel: MobilePaymentFramework.OrderChannel) -> MobilePaymentFramework.ReaderFirmwareUpdateRequest.Builder
+    public func set(clientTransactionId: Swift.String) -> MobilePaymentFramework.ReaderFirmwareUpdateRequest.Builder
+    public func set(readerType: MobilePaymentFramework.ReaderType) -> MobilePaymentFramework.ReaderFirmwareUpdateRequest.Builder
+    public func set(country: MobilePaymentFramework.Country) -> MobilePaymentFramework.ReaderFirmwareUpdateRequest.Builder
+    public func set(currency: MobilePaymentFramework.Currency) -> MobilePaymentFramework.ReaderFirmwareUpdateRequest.Builder
+    public func set(storeId: Swift.String) -> MobilePaymentFramework.ReaderFirmwareUpdateRequest.Builder
+    public func build() throws -> MobilePaymentFramework.ReaderFirmwareUpdateRequest
+    @objc deinit
+  }
+}
+public struct InstallmentData {
+}
+public enum StatusCode {
+  case approved
+  case declined
+  case referral
+  case error
+  public static func == (a: MobilePaymentFramework.StatusCode, b: MobilePaymentFramework.StatusCode) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct PSCardInquiryRequest : Swift.Codable, Swift.Equatable {
+  public static func == (lhs: MobilePaymentFramework.PSCardInquiryRequest, rhs: MobilePaymentFramework.PSCardInquiryRequest) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct PSCardInquiryResponse : Swift.Codable, Swift.Equatable {
+  public static func == (lhs: MobilePaymentFramework.PSCardInquiryResponse, rhs: MobilePaymentFramework.PSCardInquiryResponse) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @_inheritsConvenienceInitializers public class PSCardInquiry : ObjectiveC.NSObject {
+  public static func getExpectedRequest() throws -> MobilePaymentFramework.PSCardInquiryRequest
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum ConfigFormat {
+  case json
+  public static func == (a: MobilePaymentFramework.ConfigFormat, b: MobilePaymentFramework.ConfigFormat) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum AIDTags {
+  case contact
+  case contactless
+  public static func == (a: MobilePaymentFramework.AIDTags, b: MobilePaymentFramework.AIDTags) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_inheritsConvenienceInitializers public class MPFDeviceConfigManager : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  public init?(userDefaultsKey: Swift.String, format: MobilePaymentFramework.ConfigFormat = .json)
+  public init?(fileName: Swift.String, format: MobilePaymentFramework.ConfigFormat = .json)
+  public init?(responseDictionary: [Swift.String : Any])
+  @objc deinit
+}
+public protocol MPHostSessionDelegate : AnyObject {
+  func getToken() -> Swift.String
+  func getCertificateAuthenticationData() -> (certificateData: Foundation.Data, password: Swift.String)
+}
+public enum FirmwareUpdateAction : Swift.String, Swift.Codable {
+  case mandatory
+  case optional
+  case none
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol MPFirmwareUpdateDelegate : AnyObject {
+  func requestUserAuthorization(currentFirmwareVersion: Swift.String, newFirmwareVersion: Swift.String, action: MobilePaymentFramework.FirmwareUpdateAction) -> Swift.Bool
+}
+@objc public class MPSession : ObjectiveC.NSObject {
+  public init(hostDelegate: MobilePaymentFramework.MPHostSessionDelegate, firmwareUpdateDelegate: MobilePaymentFramework.MPFirmwareUpdateDelegate? = nil)
+  public func readerInitialize(request: MobilePaymentFramework.ReaderInitializeRequest, progressHandler: @escaping (Swift.UInt64, Swift.String) -> Swift.Void, completionHandler: @escaping (MobilePaymentFramework.ReaderInitializeResponse?, Swift.Error?) -> Swift.Void)
+  public func readerFirmwareUpdate(data: MobilePaymentFramework.ReaderFirmwareUpdateRequest, progressHandler: @escaping (Swift.UInt64, Swift.String) -> Swift.Void, completionHandler: @escaping (MobilePaymentFramework.ReaderFirmwareUpdateResponse?, Swift.Error?) -> Swift.Void)
+  public func cancelReaderFirmwareUpdate(data: MobilePaymentFramework.ReaderFirmwareUpdateRequest)
+  public func charge(request: MobilePaymentFramework.AuthorizeRequest, progressHandler: @escaping (Swift.UInt64, Swift.String) -> Swift.Void, completionHandler: @escaping (MobilePaymentFramework.AuthorizeResponse?, Swift.Error?) -> Swift.Void)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct CaptureResponse {
+}
+public struct CardInquiryRequest {
+}
+public struct CardInquiryResponse {
+}
+public struct ErrorCode {
+}
+public typealias ServiceCompletion = ([Swift.String : Any]?, Swift.Error?) -> Swift.Void
+public typealias DownloadCompletionHandler = (Foundation.URL?, Swift.Error?) -> Swift.Void
+public enum TransactionType : Swift.UInt8 {
+  case Sale
+  case Refund
+  public typealias RawValue = Swift.UInt8
+  public init?(rawValue: Swift.UInt8)
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public enum ActionCode : Swift.UInt32, Swift.Codable {
+  case approved
+  case approvedWithId
+  case partialApproval
+  case approvedVIP
+  case declined
+  case expiredCard
+  case suspectedFraud
+  case contactAcquirer
+  case restrictedCard
+  case pinTriesExceeded
+  case referToIssuer
+  case invalidMerchant
+  case invalidAmount
+  case invalidCardNumber
+  case pinDataRequired
+  case invalidAccountType
+  case functionNotSupported
+  case insufficientFunds
+  case incorrectPin
+  case noCardRecord
+  case securityViolation
+  case inactiveCard
+  case invalidPinBlock
+  case invalidPinLength
+  case pinKeySyncError
+  case suspectCounterfeitCard
+  case invalidPersonalId
+  case declinedPickUp
+  case expiredCardPickUp
+  case suspectedFraudPickUp
+  case contactAcquirerPickUp
+  case restrictedCardPickUp
+  case pinTriesExceededPickUp
+  case referToIssuerPickUp
+  case lostCardPickUp
+  case stolenCardPickUp
+  case suspectCardPickUp
+  case exceedsUsageLimitPickUp
+  case formatError
+  case inValidTransaction
+  case retry
+  case readerConnectionError
+  case readerTimeout
+  case invalidTrackData
+  case transactionNotPermitted
+  case systemMalfunction
+  case issuerUnavailable
+  case duplicateTransaction
+  case transactionNotFound
+  case missingConfiguration
+  case invalidConfiguration
+  case macIncorrect
+  case macKeySyncError
+  case encryptionKeySyncError
+  case keyExchangeSyncError
+  case deviceNotConfigured
+  case deviceNotActivated
+  case acquirerUnavailable
+  case acquirerTimeout
+  case issuerTimeout
+  case retryLimitExceeded
+  case originalRequestInFlight
+  case gatewayUnavailable
+  case gatewayTimeout
+  public func isApproved() -> Swift.Bool
+  public func isDeclined() -> Swift.Bool
+  public func isReferral() -> Swift.Bool
+  public func isDeclinedPickup() -> Swift.Bool
+  public func description() -> Swift.String
+  public typealias RawValue = Swift.UInt32
+  public init?(rawValue: Swift.UInt32)
+  public var rawValue: Swift.UInt32 {
+    get
+  }
+}
+public struct CountryCode : Swift.Hashable {
+  public let alpha2Code: Swift.String
+  public let alpha3Code: Swift.String
+  public let numericCode: Swift.UInt16
+  public let description: Swift.String
+  public init(alpha2Code: Swift.String, alpha3Code: Swift.String, numericCode: Swift.UInt16, description: Swift.String)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: MobilePaymentFramework.CountryCode, b: MobilePaymentFramework.CountryCode) -> Swift.Bool
+}
+public enum Country : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case ARE
+  case AUS
+  case AUT
+  case BEL
+  case BRA
+  case CAN
+  case CHE
+  case CHN
+  case DEU
+  case ESP
+  case FRA
+  case GBR
+  case HKG
+  case ITA
+  case JPN
+  case MAC
+  case MEX
+  case NLD
+  case SGP
+  case SWE
+  case THA
+  case TWN
+  case USA
+  public func getCountryCode() -> MobilePaymentFramework.CountryCode
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [MobilePaymentFramework.Country]
+  public static var allCases: [MobilePaymentFramework.Country] {
+    get
+  }
+}
+public struct CurrencyCode : Swift.Hashable {
+  public let alphaCode: Swift.String
+  public let numericCode: Swift.UInt16
+  public let exponent: Swift.UInt8
+  public let description: Swift.String
+  public init(alphaCode: Swift.String, numericCode: Swift.UInt16, exponent: Swift.UInt8, description: Swift.String)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: MobilePaymentFramework.CurrencyCode, b: MobilePaymentFramework.CurrencyCode) -> Swift.Bool
+}
+public enum Currency : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case AUD
+  case BRL
+  case CAD
+  case CHF
+  case CNY
+  case EUR
+  case GBP
+  case HKD
+  case JPY
+  case MOP
+  case MXN
+  case SGD
+  case SEK
+  case THB
+  case TWD
+  case USD
+  public func getCurrencyCode() -> MobilePaymentFramework.CurrencyCode
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [MobilePaymentFramework.Currency]
+  public static var allCases: [MobilePaymentFramework.Currency] {
+    get
+  }
+}
+public enum CardBrand : Swift.String, Swift.CaseIterable, Swift.CodingKey {
+  case Amex
+  case Diners
+  case Discover
+  case Dna
+  case Eftpos
+  case Elo
+  case Interac
+  case Itmx
+  case Jcb
+  case Maestro
+  case MasterCard
+  case Other
+  case Tpn
+  case UnionPay
+  case Visa
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [MobilePaymentFramework.CardBrand]
+  public static var allCases: [MobilePaymentFramework.CardBrand] {
+    get
+  }
+  public var stringValue: Swift.String {
+    get
+  }
+  public init?(stringValue: Swift.String)
+  public var intValue: Swift.Int? {
+    get
+  }
+  public init?(intValue: Swift.Int)
+}
+public enum OrderChannel : Swift.String, Swift.Codable {
+  case pos
+  case cafemacs
+  case asa
+  case mg
+  case wellness
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ReaderInitializeResponse {
+}
+extension ReaderInitializeResponse {
+  public class Builder {
+    public init()
+    public func set(clientId: Swift.String) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(storeId: Swift.String) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(clientTransactionId: Foundation.UUID) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(currency: MobilePaymentFramework.Currency) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(country: MobilePaymentFramework.Country) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(readerType: MobilePaymentFramework.ReaderType) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(status: MobilePaymentFramework.StatusCode) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(error: MobilePaymentFramework.ErrorCode) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(serialNumber: Swift.String) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(firmwareVersion: Swift.String) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func set(configVersion: Swift.String) -> MobilePaymentFramework.ReaderInitializeResponse.Builder
+    public func build() throws -> MobilePaymentFramework.ReaderInitializeResponse
+    @objc deinit
+  }
+}
+public enum MPBLEDeviceStatus {
+  case connected
+  case disconnected
+  case error(message: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers public class TransactionHandler : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
